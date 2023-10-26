@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Maze {
     private Square[][]  maze;
@@ -17,11 +16,11 @@ public class Maze {
         this.maze = new Square[numRows][numCols];
 
         for (int row=0; row < numRows; row++) {
-            for (int col=0; col < numCols; col++) {
+            for (int col=0; col < numCols; col++){
                 maze[row][col] = null;
             }
+        }
     }
-}
 
     ArrayList<Square> getNeighbors(Square sq){
         ArrayList<Square> neighbors = new ArrayList<>();
@@ -41,8 +40,16 @@ public class Maze {
         //If the square is on a border, skip over directions that are out of bounds of the maze. Don't be adding in null values.
     
 
-    public Square getStart(){}
-    public Square getFinish(){}
-    public void reset(){}
-    public String toString(){}
+    public Square getStart(){
+
+    }
+    public Square getFinish(){
+
+    }
+    public void reset(){
+
+    }
+    public String toString(){
+        
+    }
 }

@@ -3,7 +3,7 @@ public class Square{
     private int row, col, type;
     public boolean explored, onPath, isCurrent;
 
-    public Square(Square previous, int row, int col, int type){
+    public Square(int row, int col, int type){
         this.row = row;
         this.col = col;
         this.type = type;
@@ -22,6 +22,11 @@ public class Square{
         return this.type;
     }
 
+    // 0 = empty
+    // 1 = wall
+    // 2 = start
+    // 3 = end
+    // booleans determine stuff when solving
     public String toString(){
         if(isCurrent){
             return "o";
@@ -42,5 +47,6 @@ public class Square{
             case 3:
                 return "E";
         }
+        return null;
     }
 }
