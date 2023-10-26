@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Maze {
+public class Maze implements MazeSkeleton{
     private Square[][]  maze;
     public Maze(){}
     
