@@ -1,25 +1,47 @@
 import java.util.*;
+import java.io.*;
 
 public class Maze {
     private Square[][]  maze;
-    public Maze(){}
-    
+    private Square start, end;
 
-    boolean loadMaze(String fname){
-        
-        Scanner scan = new Scanner(new File(fname));
-        String str = scan.nextLine();
+    public Maze(){
+
+    }
+
+    // there is a better way to do this but it works
+    boolean loadMaze(String fileName) throws FileNotFoundException{
+        File f = new File(fileName);
+        Scanner scan = new Scanner(f);
+        String str = scan.nextLine();  scan.close();
 
         int numRows = Integer.parseInt(str.substring(0, str.indexOf(" ")));
         int numCols = Integer.parseInt(str.substring(str.indexOf(" ")+1));
 
         this.maze = new Square[numRows][numCols];
-
-        for (int row=0; row < numRows; row++) {
-            for (int col=0; col < numCols; col++){
-                maze[row][col] = null;
+        scan = new Scanner(f); scan.nextLine();
+        int row = 0, col = 0, offset;
+        while(scan.hasNext()){
+            str = scan.nextLine();
+            for(col = 0, offset = 0; col < str.length(); col++){
+                int type = str.charAt(col);
+                if(type == 32){
+                    offset++;
+                    continue;
+                }
+                type -= 48;
+                maze[row][col-offset] = new Square(row,col,type);
+                if(type == 2){
+                    this.start = maze[row][col-offset];
+                }
+                if(type == 3){
+                    this.end = maze[row][col-offset];
+                }
             }
+            row++;
         }
+        System.out.println(row + "," + col);
+        return true;
     }
 
     ArrayList<Square> getNeighbors(Square sq){
@@ -36,20 +58,33 @@ public class Maze {
         return neighbors;
     }
 
-        //return an ArrayList of the Square neighbors of the parameter Square sq. There will be at most four of these (to the North, East, South, and West) and you should list them in that order.
-        //If the square is on a border, skip over directions that are out of bounds of the maze. Don't be adding in null values.
-    
-
     public Square getStart(){
-
+        if(this.start == null){
+            throw new NullPointerException();
+        }
+        return start;
     }
     public Square getFinish(){
-
+        if(this.end == null){
+            throw new NullPointerException();
+        }
+        return end;
     }
     public void reset(){
-
+        for(Square[] row : maze){
+            for(Square s : row){
+                s.reset();
+            }
+        }
     }
     public String toString(){
-        
+        String result = "";
+        for(Square[] row : maze){
+            for(Square s : row){
+                result += s;
+            }
+            result += "\n";
+        }
+        return result;
     }
 }

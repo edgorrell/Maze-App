@@ -1,13 +1,13 @@
 public class Square{
-    private Square previous;
     private int row, col, type;
+    public Square previous;
     public boolean explored, onPath, isCurrent;
 
     public Square(int row, int col, int type){
         this.row = row;
         this.col = col;
         this.type = type;
-        this.previous = previous;
+        this.reset();
     }
 
     public int getRow(){
@@ -22,23 +22,29 @@ public class Square{
         return this.type;
     }
 
+    public void reset(){
+        this.previous = null;
+        this.explored = false;
+        this.onPath = false;
+        this.isCurrent = false;
+    }
     // 0 = empty
     // 1 = wall
     // 2 = start
     // 3 = end
     // booleans determine stuff when solving
     public String toString(){
-        if(isCurrent){
-            return "o";
-        }
-        if(onPath){
-            return "x";
-        }
-        if(explored){
-            return ".";
-        }
         switch(type){
             case 0:
+                if(isCurrent){
+                    return "o";
+                }
+                if(onPath){
+                    return "x";
+                }
+                if(explored){
+                    return ".";
+                }
                 return " ";
             case 1:
                 return "#";
@@ -47,6 +53,6 @@ public class Square{
             case 3:
                 return "E";
         }
-        return null;
+        return " ";
     }
 }
