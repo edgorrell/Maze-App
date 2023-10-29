@@ -20,27 +20,21 @@ public class Maze {
 
         this.maze = new Square[numRows][numCols];
         scan = new Scanner(f); scan.nextLine();
-        int row = 0, col = 0, offset;
+        int row = 0, col = 0;
         while(scan.hasNext()){
             str = scan.nextLine();
-            for(col = 0, offset = 0; col < str.length(); col++){
-                int type = str.charAt(col);
-                if(type == 32){
-                    offset++;
-                    continue;
-                }
-                type -= 48;
-                maze[row][col-offset] = new Square(row,col,type);
+            for(col = 0; col < numCols; col++){
+                int type = Integer.parseInt(str.substring(2*col,2*col+1));
+                maze[row][col] = new Square(row,col,type);
                 if(type == 2){
-                    this.start = maze[row][col-offset];
+                    this.start = maze[row][col];
                 }
                 if(type == 3){
-                    this.end = maze[row][col-offset];
+                    this.end = maze[row][col];
                 }
             }
             row++;
         }
-        System.out.println(row + "," + col);
         return true;
     }
 
@@ -64,12 +58,14 @@ public class Maze {
         }
         return start;
     }
+
     public Square getFinish(){
         if(this.end == null){
             throw new NullPointerException();
         }
         return end;
     }
+    
     public void reset(){
         for(Square[] row : maze){
             for(Square s : row){
@@ -77,6 +73,7 @@ public class Maze {
             }
         }
     }
+
     public String toString(){
         String result = "";
         for(Square[] row : maze){
