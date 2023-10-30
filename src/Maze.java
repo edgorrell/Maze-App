@@ -1,55 +1,91 @@
 import java.util.*;
+import java.io.*;
 
-public class Maze implements MazeSkeleton{
-    private Square[][]  maze;
-    public Maze(){}
-    
+public class Maze{
+    private Square[][] maze = null;
+    private Square start, end;
 
-    boolean loadMaze(String fname){
-        
-        Scanner scan = new Scanner(new File(fname));
-        String str = scan.nextLine();
+    public Maze(){
 
-        int numRows = Integer.parseInt(str.substring(0, str.indexOf(" ")));
-        int numCols = Integer.parseInt(str.substring(str.indexOf(" ")+1));
+    }
 
-        this.maze = new Square[numRows][numCols];
+    boolean loadMaze(String fileName){
+        try{
+            File f = new File(fileName);
+            Scanner scan = new Scanner(f);
+            String str = scan.nextLine();  scan.close();
 
-        for (int row=0; row < numRows; row++) {
-            for (int col=0; col < numCols; col++){
-                maze[row][col] = null;
+            int numRows = Integer.parseInt(str.substring(0, str.indexOf(" ")));
+            int numCols = Integer.parseInt(str.substring(str.indexOf(" ")+1));
+
+            this.maze = new Square[numRows][numCols];
+            scan = new Scanner(f); scan.nextLine();
+            int row = 0, col = 0;
+            while(scan.hasNext()){
+                str = scan.nextLine();
+                for(col = 0; col < numCols; col++){
+                    int type = Integer.parseInt(str.substring(2*col,2*col+1));
+                    maze[row][col] = new Square(row,col,type);
+                    if(type == 2){
+                        this.start = maze[row][col];
+                    }
+                    if(type == 3){
+                        this.end = maze[row][col];
+                    }
+                }
+                row++;
             }
+            return true;
+        } catch(Exception e){
+            return false;
         }
     }
 
-    ArrayList<Square> getNeighbors(Square sq){
+    ArrayList<Square> getNeighbors(int row, int col){
         ArrayList<Square> neighbors = new ArrayList<>();
-
+        Square sq = getSquare(row, col);
+        
         int[] xOffset = {0,1,0,-1};
         int[] yOffset = {1,0,-1,0};
         for(int i = 0; i < 4; i++){
             try{
                 neighbors.add(maze[sq.getRow()+yOffset[i]][sq.getCol()+xOffset[i]]);
-            } catch(Exception e){}
+            } catch(Exception e){
+                continue;
+            }
         }
 
         return neighbors;
     }
 
-        //return an ArrayList of the Square neighbors of the parameter Square sq. There will be at most four of these (to the North, East, South, and West) and you should list them in that order.
-        //If the square is on a border, skip over directions that are out of bounds of the maze. Don't be adding in null values.
-    
+    public Square getSquare(int row, int col){
+        return maze[row][col];
+    }
 
     public Square getStart(){
-
+        return start;
     }
+
     public Square getFinish(){
-
+        return end;
     }
+    
     public void reset(){
-
+        for(Square[] row : maze){
+            for(Square s : row){
+                s.reset();
+            }
+        }
     }
+
     public String toString(){
-        
+        String result = "";
+        for(Square[] row : maze){
+            for(Square s : row){
+                result += s;
+            }
+            result += "\n";
+        }
+        return result;
     }
 }
