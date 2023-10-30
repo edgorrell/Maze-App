@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Maze {
+public class Maze implements MazeSkeleton{
     private Square[][]  maze;
     private Square start, end;
 
