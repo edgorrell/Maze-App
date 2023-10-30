@@ -44,5 +44,4 @@ public interface StackADT<T> {
      * Clear out the data structure
      */
     void clear();
-
 }
