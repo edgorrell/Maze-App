@@ -1,6 +1,4 @@
-import java.util.*;
-
-public class SquareTests {
+public class SquareTest {
     public static void main(String[] args){
         Square s1 = new Square(4,3,0);
         Square s2 = new Square(5,7,1);
