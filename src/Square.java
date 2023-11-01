@@ -28,6 +28,10 @@ public class Square{
         this.onPath = false;
         this.isCurrent = false;
     }
+
+    public String coords(){
+        return "(" + row + "," + col + ")";
+    }
     // 0 = empty
     // 1 = wall
     // 2 = start
@@ -54,5 +58,9 @@ public class Square{
                 return "E";
         }
         return " ";
+    }
+
+    public boolean equals(Square s){
+        return this.row == s.row && this.col == s.col && this.type == s.type;
     }
 }

@@ -66,7 +66,7 @@ public class Maze{
         return start;
     }
 
-    public Square getFinish(){
+    public Square getEnd(){
         return end;
     }
     
