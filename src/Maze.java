@@ -4,6 +4,7 @@ import java.io.*;
 public class Maze{
     private Square[][] maze = null;
     private Square start, end;
+    private int numRows, numCols;
 
     public Maze(){
 
@@ -15,8 +16,8 @@ public class Maze{
             Scanner scan = new Scanner(f);
             String str = scan.nextLine();  scan.close();
 
-            int numRows = Integer.parseInt(str.substring(0, str.indexOf(" ")));
-            int numCols = Integer.parseInt(str.substring(str.indexOf(" ")+1));
+            numRows = Integer.parseInt(str.substring(0, str.indexOf(" ")));
+            numCols = Integer.parseInt(str.substring(str.indexOf(" ")+1));
 
             this.maze = new Square[numRows][numCols];
             scan = new Scanner(f); scan.nextLine();
@@ -80,11 +81,19 @@ public class Maze{
 
     public String toString(){
         String result = "";
+        for(int i = 0; i < numCols + 2; i++){
+            result += "#";
+        }
+        result += "\n";
         for(Square[] row : maze){
+            result += "#";
             for(Square s : row){
                 result += s;
             }
-            result += "\n";
+            result += "#\n";
+        }
+        for(int i = 0; i < numCols + 2; i++){
+            result += "#";
         }
         return result;
     }

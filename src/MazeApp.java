@@ -274,9 +274,10 @@ public class MazeApp extends JFrame implements ActionListener {
         if (oldType.equalsIgnoreCase("queue")) {
             solver = new MazeSolverQueue(this.maze);
         } else if (oldType.equalsIgnoreCase("stack")) {
-            //solver = new MazeSolverStack(this.maze);
-        } else
+            solver = new MazeSolverStack(this.maze);
+        } else {
             throw new UnsupportedOperationException("Don't know how to solve using a: " + oldType);
+        }
     }
 
     /**
