@@ -1,4 +1,4 @@
-public class MyQueueTest {
+public class QueueTest{
     public static void main(String[] args){
         MyQueue<String> queue = new MyQueue<String>();
         System.out.println(queue.isEmpty());

@@ -1,13 +1,17 @@
 import java.util.NoSuchElementException;
 
-public class MyQueue<T> implements QueueADT<T>{    
-    private Node<T> first, last;
-    public MyQueue(){
-        this.first = null;
+public class MyQueue<T> extends WorkList<T> implements QueueADT<T>{    
+    private Node<T> last = null;
+    
+    public T front(){
+        return getFirst();
     }
-    
-    
-    
+
+    @Override
+    public void add(T item){
+        enqueue(item);
+    }
+
     public void enqueue(T element){
         if(size() == 0){
             first = new Node<T>(element, null);
@@ -19,16 +23,16 @@ public class MyQueue<T> implements QueueADT<T>{
         this.last = node;
     }
 
-    /**
-     * Remove the front item from the queue
-     * @return the front item in the queue
-     * @throws NoSuchElementException if the queue is empty
-     */
+    @Override
+    public T remove(){
+        return dequeue();
+    }
+
     public T dequeue() throws NoSuchElementException{
         if (this.first == null){
             throw new NoSuchElementException();
         }
-        T element = this.first.data;
+        T element = this.first.item;
         if(this.first.equals(this.last)){
             this.first = null;
             this.last = null;
@@ -39,61 +43,15 @@ public class MyQueue<T> implements QueueADT<T>{
         }
     }
 
-    /**
-     * Return the front item in the queue without removing it
-     * @return the front item in the queue
-     * @throws NoSuchElementException if the queue is empty
-     */
-    public T front() throws NoSuchElementException{
-        if (this.first == null){
-            throw new NoSuchElementException();
-        }
-        return this.first.data;
-    }
-
-    /**
-     * Find how many items are in the queue
-     * @return the number of items in the queue
-     */
-    public int size(){
-        if(first == null && last == null){
-            return 0;
-        }
-        Node<T> temp = first;
-        int size = 1;
-        while(temp.next != null){
-            temp = temp.next;
-            System.out.println(temp.data);
-            size++;  
-        }
-        return size;
-    }
-
-    /**
-     * Determine if the queue is empty
-     * @return true if the size is 0, false otherwise
-     */
+    @Override
     public boolean isEmpty(){
-        return this.first==null;
+        return this.first == null && this.last == null;
     }
 
-    /**
-     * Clear out the data structure
-     */
+    @Override
     public void clear(){
         this.first = null;
         this.last = null;
     }
-
-    static class Node<T>{
-        public T data;
-        public Node<T> next;
-
-        public Node(T data, Node<T> next){
-        this.data = data;
-        this.next = next;
-        }
-    }
-    
 }
 
