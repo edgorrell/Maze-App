@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public abstract class MazeSolver{
     protected Maze maze;
+    protected Object solverType;
     protected WorkList<Square> workList;
 
     public MazeSolver(Maze maze){
@@ -9,10 +10,10 @@ public abstract class MazeSolver{
     }
 
     private WorkList<Square> constructor(){
-        if(workList.getClass().equals(new MyStack<Square>().getClass())){
+        if(solverType.getClass().equals(new MyStack<Square>().getClass())){
             return new MyStack<Square>();
         }
-        if(workList.getClass().equals(new MyQueue<Square>().getClass())){
+        if(solverType.getClass().equals(new MyQueue<Square>().getClass())){
             return new MyQueue<Square>();
         }
         return null;
@@ -54,10 +55,10 @@ public abstract class MazeSolver{
     public Square step(){
         if(workList == null){
             workList = constructor();
-            workList.add(maze.getStart());
+            add(maze.getStart());
             return null;
         } else {
-            Square s = workList.getFirst();
+            Square s = next();
             s.isCurrent = true;
             if(maze.getStart().equals(s)){
                 workList.clear();
@@ -67,7 +68,7 @@ public abstract class MazeSolver{
             for(Square near : neighbors){
                 if(!near.explored){
                     near.explored = true;
-                    workList.add(near);
+                    add(near);
                 }
                 if(near.isCurrent){
                     near.isCurrent = false;
