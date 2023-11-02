@@ -8,6 +8,16 @@ public abstract class MazeSolver{
         this.maze = maze;
     }
 
+    private WorkList<Square> constructor(){
+        if(workList.getClass().equals(new MyStack<Square>().getClass())){
+            return new MyStack<Square>();
+        }
+        if(workList.getClass().equals(new MyQueue<Square>().getClass())){
+            return new MyQueue<Square>();
+        }
+        return null;
+    }
+
     abstract void makeEmpty();
 
     abstract boolean isEmpty();
@@ -34,6 +44,7 @@ public abstract class MazeSolver{
         String path = "";
         Square s = maze.getEnd();
         while(s.previous != null){
+            s.onPath = true;
             path += s.coords();
             s = s.previous;
         }
@@ -42,18 +53,25 @@ public abstract class MazeSolver{
 
     public Square step(){
         if(workList == null){
-            workList = new WorkList<Square>();
+            workList = constructor();
             workList.add(maze.getStart());
             return null;
         } else {
             Square s = workList.getFirst();
+            s.isCurrent = true;
             if(maze.getStart().equals(s)){
                 workList.clear();
                 return s;
             }
             ArrayList<Square> neighbors = maze.getNeighbors(s.getRow(), s.getCol());
             for(Square near : neighbors){
-                workList.add(near);
+                if(!near.explored){
+                    near.explored = true;
+                    workList.add(near);
+                }
+                if(near.isCurrent){
+                    near.isCurrent = false;
+                }
             }
             return s;
         }

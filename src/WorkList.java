@@ -1,7 +1,11 @@
 import java.util.NoSuchElementException;
 
-public class WorkList<T>{
+public abstract class WorkList<T>{
     protected Node<T> first = null;
+
+    public WorkList(){
+
+    }
 
     public T getFirst(){
         if (this.first == null){
@@ -10,18 +14,13 @@ public class WorkList<T>{
         return first.item;
     }
 
-    public void add(T item){}
+    abstract public void add(T item);
 
-    public T remove(){
-        return null;
-    }
+    abstract public T remove();
 
-    public boolean isEmpty(){
-        return true;
-    }
+    abstract public boolean isEmpty();
 
-    public void clear(){}
-
+    abstract public void clear();
     
     public int size(){
         int size = 0;
