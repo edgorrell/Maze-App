@@ -272,11 +272,12 @@ public class MazeApp extends JFrame implements ActionListener {
     private void makeNewSolver() {
         String oldType = solverType.getText();
         if (oldType.equalsIgnoreCase("queue")) {
-            //solver = new QueueSolver(this.maze);
+            solver = new MazeSolverQueue(this.maze);
         } else if (oldType.equalsIgnoreCase("stack")) {
             solver = new MazeSolverStack(this.maze);
-        } else
+        } else {
             throw new UnsupportedOperationException("Don't know how to solve using a: " + oldType);
+        }
     }
 
     /**
