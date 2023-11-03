@@ -1,20 +1,26 @@
 public class MazeSolverQueue extends MazeSolver{
-    private MyQueue<Square> queue;
+
     public MazeSolverQueue(Maze maze){
         super(maze);
+        this.workList = new MyQueue<Square>();
     }
     public void add(Square sq) {
-        queue.add(sq);
+        workList.add(sq);
     }
+
+    public Square remove(){
+        return workList.remove();
+    }
+    
     public void makeEmpty(){
-        WorkList<Square> queue = new MyQueue<Square>();
+        this.workList = new MyQueue<Square>();
     }
 
     public boolean isEmpty(){
-        return queue.isEmpty();
+        return workList.isEmpty();
     }
 
     public Square next(){
-        return queue.dequeue();
+        return workList.getFirst();
     }
 }

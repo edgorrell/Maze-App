@@ -23,7 +23,6 @@ public class Square{
     }
 
     public void reset(){
-        this.previous = null;
         this.explored = false;
         this.onPath = false;
         this.isCurrent = false;
