@@ -4,6 +4,7 @@ public abstract class MazeSolver{
     protected Maze maze;
     protected WorkList<Square> workList;
     protected boolean setup = false;
+    private String path;
 
     public MazeSolver(Maze maze){
         this.maze = maze;
@@ -12,6 +13,7 @@ public abstract class MazeSolver{
     public void setup(){
         workList.clear();
         workList.add(maze.getStart());
+        maze.getStart().explored = true;
     }
 
     abstract void makeEmpty();
@@ -24,29 +26,22 @@ public abstract class MazeSolver{
 
     boolean isSolved(){
         Square s = maze.getEnd();
+        this.path = "";
         while(s.previous != null){
+            this.path += s.coords();
+            s.onPath = true;
             s = s.previous;
             if(maze.getStart().equals(s)){
                 return true;
             }
         }
+        this.path = "No Path";
         return false;
     }
 
     String getPath(){
-        maze.reset();
-        if(!isSolved()){
-            return "No Path";
-        }
-        String path = "";
-        Square s = maze.getEnd();
-        while(s.previous != null){
-            s.onPath = true;
-            path += s.coords();
-            s = s.previous;
-        }
-        path += maze.getStart().coords();
-        return path;        
+        isSolved();
+        return this.path;        
     }
 
     public Square step(){
@@ -54,9 +49,8 @@ public abstract class MazeSolver{
             setup();
             setup = !setup;
         }
-        Square s = next();
+        Square s = workList.remove();
         s.isCurrent = true;
-        s.explored = true;
         if(maze.getEnd().equals(s)){
             workList.clear();
             return s;
@@ -66,16 +60,13 @@ public abstract class MazeSolver{
             if(near.isCurrent){
                 near.isCurrent = false;
             }
-            if(near.getType() == 1){
-                continue;
-            }
-            if(near.explored){
+            if(near.getType() == 1 || near.explored){
                 continue;
             }
             near.previous = s;
+            near.explored = true;
             add(near);
         }
-        workList.remove();
         return s;
     }
 
