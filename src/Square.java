@@ -24,19 +24,26 @@ public class Square{
 
     public void reset(){
         this.explored = false;
-        this.onPath = false;
         this.isCurrent = false;
+    }
+
+    public void resetAll(){
+        this.explored = false;
+        this.isCurrent = false;
+        this.onPath = false;
+        this.previous = null;
     }
 
     public String coords(){
         return "(" + row + "," + col + ")";
     }
+
     // 0 = empty
     // 1 = wall
     // 2 = start
     // 3 = end
     // booleans determine stuff when solving
-    public String toString(){
+    public String toString(Maze m){
         switch(type){
             case 0:
                 if(isCurrent){

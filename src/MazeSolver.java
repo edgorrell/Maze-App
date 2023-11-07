@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 
 public abstract class MazeSolver{
-    protected Maze maze;
-    protected WorkList<Square> workList;
-    protected boolean setup = false;
-    private String path;
+    public Maze maze;
+    public WorkList<Square> workList;
+    public String path;
+    private boolean setup = false;
+
 
     public MazeSolver(Maze maze){
         this.maze = maze;

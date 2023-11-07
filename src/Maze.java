@@ -59,6 +59,10 @@ public class Maze{
         return neighbors;
     }
 
+    ArrayList<Square> getNeighbors(Square s){
+        return getNeighbors(s.getRow(), s.getCol());
+    }
+
     public Square getSquare(int row, int col){
         return maze[row][col];
     }
@@ -79,6 +83,14 @@ public class Maze{
         }
     }
 
+    public void resetAll(){
+        for(Square[] row : maze){
+            for(Square s : row){
+                s.resetAll();
+            }
+        }
+    }
+
     public String toString(){
         String result = "";
         for(int i = 0; i < numCols + 2; i++){
@@ -88,7 +100,7 @@ public class Maze{
         for(Square[] row : maze){
             result += "#";
             for(Square s : row){
-                result += s;
+                result += s.toString(this);
             }
             result += "#\n";
         }

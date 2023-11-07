@@ -21,7 +21,7 @@ public class MazeApp extends JFrame implements ActionListener {
     // Initial font size for the display
     private static int fontSize = 16;
     // Initial interval between animation in milliseconds
-    private static int timerInterval = 500;
+    private static int timerInterval = 50;
 
     private static final long serialVersionUID = 6228378229836664288L;
     // Fields for internal data representation
@@ -176,7 +176,7 @@ public class MazeApp extends JFrame implements ActionListener {
             doFontSize();
         }
         if (e.getSource() == stepButton) {
-            if (mazeLoaded)
+            if(mazeLoaded && solver.workList == null)
                 doStep();
         }
         if (e.getSource() == timer) {
@@ -232,7 +232,7 @@ public class MazeApp extends JFrame implements ActionListener {
      * as well as many other methods.
      */
     private void reset() {
-        maze.reset();
+        maze.resetAll();
         makeNewSolver();
         updateMaze();
     }
@@ -360,10 +360,17 @@ public class MazeApp extends JFrame implements ActionListener {
      */
     private void updateMaze() {
         if (mazeLoaded) { // leave blank until first maze is loaded
-            // update the maze
-            mazeDisplay.setText(maze.toString());
             // update the path
-            pathDisplay.setText(solver.getPath());
+            if(solver.workList.isEmpty()){
+                pathDisplay.setText(solver.getPath());
+            } else {
+                pathDisplay.setText("Solving...");
+            }
+            // update the maze
+            if(solver.isSolved()){
+                maze.reset();
+            }
+            mazeDisplay.setText(maze.toString());
         }
     }
 
