@@ -260,10 +260,11 @@ public class MazeApp extends JFrame implements ActionListener {
         String oldType = solverType.getText();
         if (oldType.equalsIgnoreCase("queue")) {
             solverType.setText("stack");
-        } else if (oldType.equalsIgnoreCase("stack")) {
+        }
+        if (oldType.equalsIgnoreCase("stack")) {
             solverType.setText("queue");
-        } else
-            throw new UnsupportedOperationException("Don't know how to change from a: " + oldType);
+        }
+        maze.resetAll();
         reset();
     }
 
@@ -361,15 +362,13 @@ public class MazeApp extends JFrame implements ActionListener {
     private void updateMaze() {
         if (mazeLoaded) { // leave blank until first maze is loaded
             // update the path
-            if(solver.workList.isEmpty()){
+            if(solver.workList.isEmpty() || solver.isSolved()){
+                maze.reset();
                 pathDisplay.setText(solver.getPath());
             } else {
                 pathDisplay.setText("Solving...");
             }
             // update the maze
-            if(solver.isSolved()){
-                maze.reset();
-            }
             mazeDisplay.setText(maze.toString());
         }
     }
