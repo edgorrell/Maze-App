@@ -26,6 +26,10 @@ public class Maze{
                 str = scan.nextLine();
                 for(col = 0; col < numCols; col++){
                     int type = Integer.parseInt(str.substring(2*col,2*col+1));
+                    if(type < 0 || type > 3){
+                        scan.close();
+                        return false;
+                    }
                     maze[row][col] = new Square(row,col,type);
                     if(type == 2){
                         this.start = maze[row][col];

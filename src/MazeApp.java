@@ -341,6 +341,7 @@ public class MazeApp extends JFrame implements ActionListener {
         }
 
         // Try to load it
+        System.out.println(maze.loadMaze(newFile.getPath()));
         if (!maze.loadMaze(newFile.getPath())) {
             JOptionPane.showMessageDialog(this, "Cannot load file: " + newFileName);
         } else {
